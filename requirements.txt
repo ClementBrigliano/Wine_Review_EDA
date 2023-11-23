@@ -3,3 +3,5 @@ pandas
 ipykernel
 nbformat
 ipywidgets
+dash
+dash-core-components
