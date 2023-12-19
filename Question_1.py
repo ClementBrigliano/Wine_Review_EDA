@@ -17,10 +17,10 @@ world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 merged_data = world.merge(country_stats, left_on='name', right_on='country', how='left')
 
 # Création des traces pour la figure
-fig = go.Figure()
+fig1 = go.Figure()
 
 # Trace pour la qualité des vins
-fig.add_trace(
+fig1.add_trace(
     go.Choropleth(
         locations=merged_data['iso_a3'],
         z=merged_data['Points moyens'],
@@ -35,7 +35,7 @@ fig.add_trace(
 )
 
 # Trace pour le nombre de vins produits, invisible par défaut
-fig.add_trace(
+fig1.add_trace(
     go.Choropleth(
         visible=False,
         locations=merged_data['iso_a3'],
@@ -50,59 +50,46 @@ fig.add_trace(
     )
 )
 
-# Mise à jour du layout pour le titre global
-# fig.update_layout(
-#     title_text='Analyse des vins dans le monde',  # Titre global
-# )
-
-# Modification de l'emplacement des boutons pour être horizontaux et à droite du titre
-fig.update_layout(
+# Suppression de l'annotation statique et mise à jour dynamique du titre
+fig1.update_layout(
     updatemenus=[
         dict(
             type="buttons",
             direction="right",
             showactive=True,
-            x=0.4,  # Position horizontale à ajuster selon la longueur du titre
-            y=1.25,  # Position verticale juste au-dessus de la carte
+            x=0.4,  # Position horizontale ajustée
+            y=1.1,  # Position verticale ajustée
             xanchor='left',
             yanchor='top',
             buttons=list([
                 dict(label="Qualité des vins",
                      method="update",
-                     args=[{"visible": [True, False]}]),
+                     args=[{"visible": [True, False]},
+                           {"title": "Qualité des vins par pays"}]),
                 dict(label="Production de vins",
                      method="update",
-                     args=[{"visible": [False, True]}]),
+                     args=[{"visible": [False, True]},
+                           {"title": "Production de vins par pays"}]),
             ]),
         )
     ]
 )
 
-# Mise à jour du layout pour afficher correctement la première trace et pour fixer les titres
-fig.update_layout(
+# Mise à jour du layout pour afficher correctement la première trace
+fig1.update_layout(
     geo=dict(
         showframe=False,
         showcoastlines=False,
         projection_type='equirectangular'
     ),
-    annotations=[
-        dict(
-            text='Analyse des vins dans le monde',  # Titre global
-            showarrow=False,
-            xref='paper',
-            yref='paper',
-            x=0.05,
-            y=1.2,
-            xanchor='left',
-            yanchor='bottom',
-            font=dict(
-                size=20,
-                color='black'
-            ),
-        )
-    ],
-    margin={"r":0,"t":100,"l":0,"b":0}  # Ajuster si nécessaire pour l'espace du titre
+    title=dict(
+        text="Qualité des vins par pays",  # Texte du titre
+        font=dict(
+            size=20,  # Taille de la police du titre
+            color="Black"  # Couleur du titre
+        ),
+        # x=0.5,  # Centrer le titre
+        # y=0.95  # Ajuster la position verticale du titre
+    ),
+    margin=dict(l=0, r=0, t=50, b=0)  # Ajustez les marges si nécessaire
 )
-
-# # Affichage de la carte
-# fig.show()
