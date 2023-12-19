@@ -8,6 +8,7 @@ app = dash.Dash(__name__)
 
 # Définition du layout de l'application avec la figure importée
 app.layout = html.Div([
+    # Introduction (HTML)
     html.H1('Wine Reviews', style={'font-family': 'Helvetica', 'fontSize': 40}),
     html.P("Ce projet présente différentes visualisations de données liées au domaine du vin, avec un accent sur la qualité des vins.", style={'font-family': 'Helvetica', 'fontSize': 20}),
     html.Details([
@@ -24,6 +25,7 @@ app.layout = html.Div([
         html.P('Les notes proviennent du site WineEnthusiast '),
     ], style={'font-family': 'Helvetica', 'fontSize': 20}),
 
+    # Graphes (figures Plotly importées depuis les .py)
     dcc.Graph(
         id='question-1',
         figure=fig  # Utilisation de la figure importée
