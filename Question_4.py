@@ -99,7 +99,7 @@ for continent in continents:
     title = (
         f"Mots les plus fréquents dans les critiques positives ({label_continent})"
         if label_continent != "Tous"
-        else "Mots les plus fréquents dans les critiques positives (Tous les continents)"
+        else "Mots les plus fréquents dans les critiques positives (tous les continents)"
     )
     buttons.append(
         dict(
@@ -110,7 +110,15 @@ for continent in continents:
     )
 buttons.reverse()
 fig4.update_layout(
-    title="Mots les plus fréquents dans les critiques positives (Tous les continents)",
+    title=dict(
+    text="Mots les plus fréquents dans les critiques positives (tous les continents)",  # Texte du titre
+    font=dict(
+        size=20,  # Taille de la police du titre
+        color="Black"  # Couleur du titre
+    ),
+    # x=0.5,  # Centrer le titre
+    # y=0.95  # Ajuster la position verticale du titre
+    ),
     updatemenus=[
         {
             "buttons": buttons,
@@ -126,5 +134,3 @@ fig4.update_layout(
     yaxis_title="Mots",
     xaxis_title="Fréquence d'apparition",
 )
-
-fig4.show()

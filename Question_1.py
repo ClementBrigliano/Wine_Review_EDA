@@ -1,6 +1,10 @@
 import pandas as pd
 import geopandas as gpd
 import plotly.graph_objects as go
+import warnings
+
+# Ignore all warnings
+warnings.filterwarnings("ignore")
 
 # Chargement des données
 df = pd.read_csv('winemag-data-130k-clean.csv')

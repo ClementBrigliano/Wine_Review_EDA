@@ -56,6 +56,16 @@ app.layout = html.Div([
         id='question-3',
         figure=fig3  # Utilisation de la figure importée
     ),
+
+    html.Br(),
+    html.Br(),
+
+    html.P(
+            "Chaque vin se voit attribuer une critique par un expert. Quels sont les mots les plus utilisés dans les critiques positives ? (Sont considérés comme positives les critiques ayant une note supérieure à 90). On remarque que ces mots changent en fonction de la provenance du vin.",
+            style={"font-family": "Helvetica", "fontSize": 20},
+        ),
+    dcc.Graph(id="question-4", figure=fig4),  # Utilisation de la figure importée
+
 ], style={'margin-left': '50px', 'margin-right': '50px'})
 
 # Main clause pour exécuter l'application
