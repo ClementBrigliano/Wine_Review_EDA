@@ -19,7 +19,7 @@ df = df.rename(columns={'points': 'quality'})
 
 # Create widgets
 df_widget = widgets.fixed(df)
-nb_quantiles_slider = widgets.IntSlider(min=2, max=20, step=1, value=2)
+nb_quantiles_slider = widgets.IntSlider(min=2, max=10, step=1, value=2)
 
 # Set up Dash app
 app = dash.Dash(__name__)

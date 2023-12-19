@@ -5,3 +5,4 @@ nbformat
 ipywidgets
 dash
 dash-core-components
+scipy
