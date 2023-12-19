@@ -1,9 +1,11 @@
 # app.py
 import dash
 from dash import html, dcc
+from dash.dependencies import Input, Output
 from Question_1 import fig1
 from Question_3 import fig3
 from Question_4 import fig4
+from Question_5 import update_question_5
 
 # Initialisation de l'application Dash
 app = dash.Dash(__name__)
@@ -65,8 +67,35 @@ app.layout = html.Div([
             style={"font-family": "Helvetica", "fontSize": 20},
         ),
     dcc.Graph(id="question-4", figure=fig4),  # Utilisation de la figure importée
+    
+    html.Br(),
+    html.Br(),
+    
+    html.P(
+        "Est-ce que les prix sont plus élevés pour les vins de qualité supérieure ? Il semble que oui, mais il y a beaucoup de chevauchement entre les quantiles de qualité. Il est difficile de dire si la qualité est un bon prédicteur du prix. cependant, il Semble que les vins cher sont toujours de qualité supérieure.",
+        style={"font-family": "Helvetica", "fontSize": 20},
+    ),
+    html.Label('Number of Quantiles'),
+    dcc.Slider(
+        id='nb-quantiles-slider',
+        min=2,
+        max=10,
+        step=1,
+        value=2,
+        marks={i: str(i) for i in range(2, 21)}
+    ),
+    dcc.Graph(id='interactive-plot'),
+   
 
 ], style={'margin-left': '50px', 'margin-right': '50px'})
+
+# Define callback to update the plot based on slider value
+@app.callback(
+    Output('interactive-plot', 'figure'),
+    [Input('nb-quantiles-slider', 'value')]
+)
+def update_plot(nb_quantiles):
+    return update_question_5(nb_quantiles)
 
 # Main clause pour exécuter l'application
 if __name__ == '__main__':

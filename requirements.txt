@@ -6,3 +6,6 @@ ipywidgets
 dash
 dash-core-components
 scipy
+geopandas
+scikit-learn
+nltk
