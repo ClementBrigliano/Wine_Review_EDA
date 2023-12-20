@@ -15,10 +15,17 @@ df_winery_grouped_continent.rename(columns={'variety': 'number of varieties', 'w
 df_winery_grouped.rename(columns={'variety': 'number of varieties', 'winery': 'number of wineries'}, inplace=True)
 
 # assign a friendly  color to each continent
-color_map = {'Africa': 'red', 'Asia': 'blue', 'Europe': 'green', 'North America': 'orange', 'Oceania': 'purple', 'South America': 'brown'}
+color_palette = {
+    "Asia": "#4477AA",  # Tol's Bright Blue
+    "Europe": "#66CCEE",  # Tol's Cyan
+    "Africa": "#228833",  # Tol's Green
+    "North America": "#CCBB44",  # Tol's Yellow
+    "South America": "#EE6677",  # Tol's Red
+    "Oceania": "#AA3377",  # Tol's Purple
+}
 
 # create a new column with the color for each continent
-df_winery_grouped_continent['color'] = df_winery_grouped_continent['continent'].apply(lambda x: color_map[x])
+df_winery_grouped_continent['color'] = df_winery_grouped_continent['continent'].apply(lambda x: color_palette[x])
 
 
 fig6 = go.Figure()
@@ -28,6 +35,10 @@ fig6 = go.Figure()
 fig6.add_trace(go.Scatter(
     x=df_winery_grouped['number of varieties'], 
     y=df_winery_grouped['points'],
+    marker = dict(
+        size=16,
+        line = dict(width=2, color='DarkSlateGrey'),
+        color='blue'),
     mode='markers',
     name='All')
 )
@@ -36,7 +47,10 @@ fig6.add_trace(go.Scatter(
     visible=False,
     x=df_winery_grouped_continent['number of varieties'], 
     y=df_winery_grouped_continent['points'],
-    marker=dict(color=df_winery_grouped_continent['color']),
+    marker=dict(
+        size=16,
+        line = dict(width=2, color='DarkSlateGrey'),
+        color=df_winery_grouped_continent['color']),
     hoverinfo='text',
     hovertext=df_winery_grouped_continent['continent'],
     mode='markers',
