@@ -11,7 +11,7 @@ df = pd.read_csv("winemag-data-130k-clean.csv")
 
 df.dropna(subset=["continent", "points", "price"], inplace=True)
 
-nltk.download("stopwords")
+nltk.download("stopwords", quiet=True)
 
 THRESHOLD = 90
 color_palette = {

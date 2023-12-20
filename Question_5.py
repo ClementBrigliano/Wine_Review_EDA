@@ -1,42 +1,56 @@
-import plotly.graph_objects as go
 import pandas as pd
-import plotly.figure_factory as ff
+import plotly.graph_objects as go
 
-colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
-            '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+def update_question_5(price_limit):
+    # Charger votre dataset
+    df = pd.read_csv('winemag-data-130k-clean.csv')
+    df.dropna(subset=['price', 'points'], inplace=True)
 
+    # Définition des catégories de qualité basées sur les points
+    bins = [0, 82, 86, 89, 93, 97, 100]
+    labels = ['Acceptable', 'Bon', 'Très Bon', 'Excellent', 'Superbe', 'Classique']
+    df['Catégorie de Qualité'] = pd.cut(df['points'], bins=bins, labels=labels, include_lowest=True)
 
+    # Définition des catégories de prix
+    df['Catégorie de Prix'] = pd.cut(df['price'], bins=[0, price_limit, float('inf')], labels=['Moins de ' + str(price_limit), 'Plus de ' + str(price_limit)])
 
-df = pd.read_csv('winemag-data-130k-clean.csv')
-df.dropna(subset=['price', 'points'], inplace=True)
+    # Création d'un tableau croisé pour compter le nombre de vins
+    pivot_count = pd.crosstab(df['Catégorie de Qualité'], df['Catégorie de Prix'])
 
-def update_question_5(nb_quantiles):
+    # Calculer les pourcentages pour chaque catégorie de prix
+    pivot_percent_under = (pivot_count.iloc[:, 0] / df[df['price'] <= price_limit]['price'].count()) * 100
+    pivot_percent_over = (pivot_count.iloc[:, 1] / df[df['price'] > price_limit]['price'].count()) * 100
 
-    df['quality_quantile'] = pd.qcut(df['points'], nb_quantiles, labels=False, duplicates='drop')
-
-    df['quality_quantile_labels'] = df['quality_quantile'].astype(str)
-
-    for i in range(nb_quantiles):
-        quantiles_min = df[df['quality_quantile'] == i]['points'].min()
-        quantiles_max = df[df['quality_quantile'] == i]['points'].max()
-        df.loc[df['quality_quantile'] == i, 'quality_quantile_labels'] = f'{quantiles_min}-{quantiles_max}'
-        
+    # Créer le graphique à barres
     fig = go.Figure()
-
-    quantiles = df['quality_quantile_labels'].unique()
-
-
-    fig = go.Figure()
-
-    quantiles = df['quality_quantile_labels'].unique()
-
-    # list of list of prices 
-    prices = [df[df['quality_quantile_labels'] == quantile]["price"].tolist() for quantile in quantiles]
-            
-    fig = ff.create_distplot(prices, quantiles, show_hist=False, colors=colors)
-
-    # Add title
-    fig.update_layout(title_text='Distribution of prices by quality quantiles')
-    fig.update_xaxes(title_text='Price')
+    fig.add_trace(go.Bar(
+        name='Moins de ' + str(price_limit),
+        x=pivot_percent_under.index,
+        y=pivot_percent_under,
+        text=pivot_percent_under.apply(lambda x: f'{x:.1f}%'),  # Ajouter le pourcentage sur les barres
+        customdata=pivot_percent_under.index,
+        hovertemplate='Un vin à moins de ' + str(price_limit) + '$ à %{text} de chance d\'être %{customdata}.<extra></extra>'
+    ))
+    fig.add_trace(go.Bar(
+        name='Plus de ' + str(price_limit),
+        x=pivot_percent_over.index,
+        y=pivot_percent_over,
+        text=pivot_percent_over.apply(lambda x: f'{x:.1f}%'),  # Ajouter le pourcentage sur les barres
+        customdata=pivot_percent_over.index,
+        hovertemplate='Un vin à plus de ' + str(price_limit) + '$ à %{text} de chance d\'être %{customdata}.<extra></extra>'
+    ))
+    fig.update_layout(
+        barmode='group',
+        title=dict(
+            text="Pourcentage de chance qu'un vin appartienne à une catégorie en fonction de son prix",
+            font=dict(
+                size=20,
+                color="Black"
+            ),
+        ),
+        xaxis_title='Catégorie de qualité',
+        yaxis_title='Pourcentage (%)',
+        legend_title_text='Prix ($)'
+    )
 
     return fig

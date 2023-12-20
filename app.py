@@ -69,33 +69,36 @@ app.layout = html.Div([
     dcc.Graph(id="question-4", figure=fig4),  # Utilisation de la figure importée
     
     html.Br(),
-    html.Br(),
     
     html.P(
-        "Est-ce que les prix sont plus élevés pour les vins de qualité supérieure ? Il semble que oui, mais il y a beaucoup de chevauchement entre les quantiles de qualité. Il est difficile de dire si la qualité est un bon prédicteur du prix. cependant, il Semble que les vins cher sont toujours de qualité supérieure.",
+        "Un vin cher est-il forcément de bonne qualité ? Il semblerait que oui. Plus un vin est cher, plus ces chances d'appartenir à une catégorie de qualité élevée sont grandes.",
         style={"font-family": "Helvetica", "fontSize": 20},
     ),
-    html.Label('Number of Quantiles'),
-    dcc.Slider(
-        id='nb-quantiles-slider',
-        min=2,
-        max=10,
-        step=1,
-        value=2,
-        marks={i: str(i) for i in range(2, 21)}
-    ),
-    dcc.Graph(id='interactive-plot'),
-   
 
+    # Question 5 avec champ de saisie pour la limite de prix
+    html.Label(
+        'Limite de prix ($) : ', 
+        style={'font-family': 'Helvetica', 'fontSize': 18}  # Appliquer le style ici
+    ),
+    dcc.Input(
+        id='price-input-5', 
+        type='number', 
+        value=100, 
+        min=0,
+        step=1,
+        style={'font-family': 'Helvetica', 'fontSize': 15}  # Modifiez la police et la taille ici
+    ),
+    dcc.Graph(id='question-5-graph'),  # Graphique pour Question 5
+   
 ], style={'margin-left': '50px', 'margin-right': '50px'})
 
-# Define callback to update the plot based on slider value
+# Callback pour la Question 5
 @app.callback(
-    Output('interactive-plot', 'figure'),
-    [Input('nb-quantiles-slider', 'value')]
+    Output('question-5-graph', 'figure'),
+    [Input('price-input-5', 'value')]
 )
-def update_plot(nb_quantiles):
-    return update_question_5(nb_quantiles)
+def update_graph_5(price_limit):
+    return update_question_5(price_limit)
 
 # Main clause pour exécuter l'application
 if __name__ == '__main__':
