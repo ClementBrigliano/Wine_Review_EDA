@@ -69,22 +69,26 @@ for continent in continents:
             )
         )
 
-all_top_words_counter = Counter(
-    word for counter in continent_top_words.values() for word in counter
-)
-top_10_overall = [word for word, count in all_top_words_counter.most_common(10)]
+# Comptage de tous les mots pour "Tous" sans distinction de continent
+df_all = df_positive["description"]
+word_counts_all = vectorizer.fit_transform(df_all)
+word_counts_all_df = pd.DataFrame(word_counts_all.toarray(), columns=vectorizer.get_feature_names_out())
+word_freq_all = word_counts_all_df.sum().sort_values(ascending=False)
+top_words_all = word_freq_all.head(10).index.tolist()
 
+# Ajouter une trace pour "Tous" qui sera visible par défaut
 fig4.add_trace(
     go.Bar(
-        x=[all_top_words_counter[word] for word in top_10_overall],
-        y=top_10_overall,
+        x=word_freq_all.head(10),
+        y=top_words_all,
         orientation="h",
         name="Tous",
         marker_color=color_palette["Tous"],
-        visible=True,
+        visible=True,  # S'assure que la trace pour "Tous" est visible par défaut
     )
 )
 
+# Mise à jour des boutons pour la navigation interactive
 buttons = []
 for continent in continents:
     label_continent = {
@@ -94,13 +98,15 @@ for continent in continents:
         "North America": "Amérique du Nord",
         "South America": "Amérique du Sud",
         "Oceania": "Océanie",
+        "Tous": "Tous"
     }.get(continent, continent)
-    visible_traces = [continent == c for c in continents]
-    title = (
-        f"Mots les plus fréquents dans les critiques positives ({label_continent})"
-        if label_continent != "Tous"
-        else "Mots les plus fréquents dans les critiques positives (tous les continents)"
-    )
+    if continent == "Tous":
+        # Lorsque "Tous" est sélectionné, rendre visible uniquement la trace pour "Tous"
+        visible_traces = [True if c == "Tous" else False for c in continents]
+    else:
+        # Pour les autres continents, rendre visible uniquement la trace correspondante
+        visible_traces = [continent == c for c in continents]
+    title = f"Mots les plus fréquents dans les critiques positives ({label_continent})"
     buttons.append(
         dict(
             label=label_continent,
@@ -108,7 +114,9 @@ for continent in continents:
             args=[{"visible": visible_traces}, {"title": title}],
         )
     )
+    
 buttons.reverse()
+
 fig4.update_layout(
     title=dict(
     text="Mots les plus fréquents dans les critiques positives (tous les continents)",  # Texte du titre
