@@ -6,6 +6,7 @@ from Question_1 import fig1
 from Question_3 import fig3
 from Question_4 import fig4
 from Question_5 import update_question_5
+from Question_6 import fig6
 
 # Initialisation de l'application Dash
 app = dash.Dash(__name__)
@@ -89,6 +90,18 @@ app.layout = html.Div([
         style={'font-family': 'Helvetica', 'fontSize': 15}  # Modifiez la police et la taille ici
     ),
     dcc.Graph(id='question-5-graph'),  # Graphique pour Question 5
+    
+    html.Br(),
+    
+    html.P(
+        """ un vigneron qui produit beaucoup de variétés de vin est-il meilleur qu'un autre qui n'en produit que quelques unes ?
+            a priori, on pourrait penser que oui, car l'on pourrait penser que la diversité des produits proposés est un gage de qualité.
+            mais est-ce vraiment le cas ?
+            selon les données que nous avons, on peut observer qu'il n'y a pas de corrélation entre le nombre de variétés produites et la qualité des vins produits.""",
+        style={"font-family": "Helvetica", "fontSize": 20},
+    ),
+    
+    dcc.Graph(id="question-6", figure=fig6),  # Utilisation de la figure importée
    
 ], style={'margin-left': '50px', 'margin-right': '50px'})
 

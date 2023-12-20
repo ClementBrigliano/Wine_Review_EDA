@@ -9,3 +9,4 @@ scipy
 geopandas
 scikit-learn
 nltk
+statsmodels
