@@ -82,8 +82,8 @@ app.layout = html.Div([
     ),
     dcc.Input(
         id='price-input-5', 
-        type='number', 
-        value=100, 
+        type='number',
+        value=100,
         min=0,
         step=1,
         style={'font-family': 'Helvetica', 'fontSize': 15}  # Modifiez la police et la taille ici
