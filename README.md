@@ -6,6 +6,11 @@ Etudiants :
 
 Ce travail présente une application de visualisation de données liées au domaine du vin à destination d'amateurs de vin. 
 
+Contenu du dépôt :
+- Notebooks et fichiers `.py` permettant le fonctionnement de l'application
+- Fichier `Présentation.pdf` contenant la présentation finale
+- Fichier `README.md` contenant la description du projet et des visualisations ainsi qu'une justification des choix et décisions prises
+
 # Installation
 1. Cloner le projet : `git clone https://github.com/clecleBriBri/Wine_Review_EDA.git`
 2. Créer un environnement virtuel : `python -m venv .venv`
