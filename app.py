@@ -14,7 +14,7 @@ app = dash.Dash(__name__)
 # Définition du layout de l'application avec la figure importée
 app.layout = html.Div([
     # Introduction (HTML)
-    html.H1('Wine Reviews', style={'font-family': 'Helvetica', 'fontSize': 40}),
+    html.H1('Wines Reviews', style={'font-family': 'Helvetica', 'fontSize': 40}),
     html.P("Ce projet présente différentes visualisations de données liées au domaine du vin, avec un accent sur la qualité des vins.", style={'font-family': 'Helvetica', 'fontSize': 20}),
     html.Details([
         html.Summary('Comment utiliser les visualisations ?'),
