@@ -1,12 +1,5 @@
-plotly
-pandas
-ipykernel
-nbformat
-ipywidgets
 dash
-dash-core-components
-scipy
+pandas
 geopandas
 scikit-learn
 nltk
-statsmodels
