@@ -4,7 +4,7 @@ Etudiants :
 - David Crevoiserat
 - Jihad Falfoul
 
-Ce travail présente une application de visualisation de données liées du domaine du vin à destination d'amateurs de vin. 
+Ce travail présente une application de visualisation de données liées au domaine du vin à destination d'amateurs de vin. 
 
 # Installation
 1. Cloner le projet : `git clone https://github.com/clecleBriBri/Wine_Review_EDA.git`
